@@ -6,10 +6,51 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="src/output.css">
+    <link href="https://fonts.googleapis.com/css?family=Poppins" rel="stylesheet">
 </head>
 
 <body>
-
+    <div class="wrapper w-screen h-screen flex justify-center items-center bg-red-300 font-pop">
+        <div class="container bg-white py-4 px-6 max-w-md rounded-lg shadow-md text-sm">
+            <nav class="bg-gray-100 rounded-md py-2">
+                <ul class="flex justify-evenly gap-4">
+                    <li class="py-1 px-3"><button
+                            class="bg-gray-200 text-gray-700 py-2 px-5 rounded-md hover:bg-gray-300 transition duration-700">Dashboard</button>
+                    </li>
+                    <li class="py-1 px-3"><button
+                            class="bg-gray-200 text-gray-700 py-2 px-5 rounded-md hover:bg-gray-300 transition duration-700">Reports</button>
+                    </li>
+                </ul>
+            </nav>
+            <div class="balance-info bg-blue-600 mt-4 p-6 rounded-lg shadow-md text-white">
+                <div class="income-info mb-6 flex justify-between px-4 text-base md:text-lg">
+                    <div class="income-title font-semibold">Income:</div>
+                    <div class="income-amount text-green-400">2000$</div>
+                </div>
+                <div class="expense-info flex justify-between px-4 text-base md:text-lg">
+                    <div class="expense-title font-semibold">Expense:</div>
+                    <div class="expense-amount text-red-400 font-bold -tracking">500$</div>
+                </div>
+            </div>
+            <div class="new-transaction-section bg-gray-100 p-2 my-6 rounded-md">
+                <div class="new-transaction-title text-center font-bold text-base py-3">Add New Transaction</div>
+                <form class="add-new-transaction py-3 px-2 flex flex-col gap-5">
+                    <input
+                        class="w-full bg-transparent placeholder:text-slate-400 text-slate-700 text-sm border border-slate-200 rounded-md px-3 py-2 transition duration-300 ease focus:outline-none focus:border-slate-400 hover:border-slate-300 shadow-sm focus:shadow"
+                        placeholder="Enter amount">
+                    <select id="amount-type"
+                        class="bg-white border border-gray-300 text-gray-700 rounded-lg px-4 py-2 focus:outline-none focus:border-blue-400 focus:ring-2 focus:ring-blue-100 transition shadow-sm">
+                        <option value="Income">Income</option>
+                        <option value="Expense">Expense</option>
+                    </select>
+                    <button type="submit"
+                        class="bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition duration-500 shadow-md">
+                        Add Transaction
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
 </body>
 
 </html>
