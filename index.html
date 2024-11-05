@@ -11,47 +11,89 @@
 
 <body>
     <div class="wrapper w-screen h-screen flex justify-center items-center bg-red-300 font-pop">
-        <div class="container bg-white py-4 px-6 max-w-md rounded-lg shadow-md text-sm">
-            <nav class="bg-gray-100 rounded-md py-2">
-                <ul class="flex justify-evenly gap-4">
-                    <li class="py-1 px-3"><button
-                            class="bg-gray-200 text-gray-700 py-2 px-5 rounded-md hover:bg-gray-300 transition duration-700">Dashboard</button>
+        <div class="container md:max-w-lg bg-white py-4 px-6 rounded-lg shadow-md text-sm">
+            <nav class="flex justify-around bg-gradient-to-r from-gray-100 to-gray-200 p-3 rounded-lg shadow-lg">
+                <ul class="flex space-x-6">
+                    <li>
+                        <button
+                            class="tab-button-dashboard focus:text-blue-600  font-semibold px-6 py-3 focus:outline-none">
+                            Dashboard
+                        </button>
                     </li>
-                    <li class="py-1 px-3"><button
-                            class="bg-gray-200 text-gray-700 py-2 px-5 rounded-md hover:bg-gray-300 transition duration-700">Reports</button>
+                    <li>
+                        <button
+                            class="tab-button-report text-gray-600 font-semibold px-6 py-3 border-b-4 border-transparent hover:text-blue-600 focus:text-blue-600 transition duration-300">
+                            Reports
+                        </button>
                     </li>
                 </ul>
             </nav>
-            <div
-                class="balance-info bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 mt-4 p-6 rounded-lg shadow-md text-white">
-                <div class="income-info mb-6 flex justify-between px-4 text-base md:text-lg">
-                    <div class="income-title font-semibold">Income:</div>
-                    <div class="income-amount text-green-400">2000$</div>
+
+            <div class="balance-info bg-blue-600 mt-6 p-6 rounded-lg shadow-md text-white">
+                <div class="income-info mb-4 flex justify-between items-center px-4 py-2 border-b border-blue-500">
+                    <div class="income-title font-semibold text-white text-lg">Income</div>
+                    <div class="income-amount font-bold text-green-300 text-xl">2000$</div>
                 </div>
-                <div class="expense-info flex justify-between px-4 text-base md:text-lg">
-                    <div class="expense-title font-semibold">Expense:</div>
-                    <div class="expense-amount text-red-400 font-bold -tracking">500$</div>
+                <div class="expense-info flex justify-between items-center px-4 py-3 border-b border-gray-200">
+                    <div class="expense-title font-semibold text-white text-lg">Expense</div>
+                    <div class="expense-amount font-bold text-red-300 text-xl">500$</div>
                 </div>
             </div>
-            <div class="new-transaction-section bg-gray-100 p-2 my-6 rounded-md">
-                <div class="new-transaction-title text-center font-bold text-base py-3">Add New Transaction</div>
-                <form class="add-new-transaction py-3 px-2 flex flex-col gap-5">
-                    <input
-                        class="w-full bg-transparent placeholder:text-slate-400 text-slate-700 text-sm border border-slate-200 rounded-md px-3 py-2 transition duration-300 ease focus:outline-none focus:border-slate-400 hover:border-slate-300 shadow-sm focus:shadow"
-                        placeholder="Enter amount">
-                    <select id="amount-type"
-                        class="bg-white border border-gray-300 text-gray-700 rounded-lg px-4 py-2 focus:outline-none focus:border-blue-400 focus:ring-2 focus:ring-blue-100 transition shadow-sm">
-                        <option value="Income">Income</option>
-                        <option value="Expense">Expense</option>
-                    </select>
-                    <button type="submit"
-                        class="bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition duration-500 shadow-md">
-                        Add Transaction
-                    </button>
-                </form>
+            <div class="main-section-wrapper py-2 px-3 my-6 rounded-md w-full">
+                <div class="new-transaction-section">
+                    <div class="new-transaction-title text-center font-bold text-base py-3">Add New Transaction</div>
+                    <form class="add-new-transaction py-3 pxy-2 px-3 flex flex-col gap-5">
+                        <input
+                            class="input-amount w-full bg-transparent placeholder:text-slate-400 text-slate-700 text-sm border border-slate-200 rounded-md px-3 border-b py-2 transition duration-300 ease focus:outline-none focus:border-slate-400 hover:border-slate-300 shadow-sm focus:shadow"
+                            placeholder="Enter amount">
+                        <input
+                            class="input-description w-full bg-transparent placeholder:text-slate-400 text-slate-700 text-sm border border-slate-200 rounded-md px-3 py-2 transition duration-300 ease focus:outline-none focus:border-slate-400 hover:border-slate-300 shadow-sm focus:shadow"
+                            placeholder="Enter description">
+
+                        <select id="amount-type"
+                            class="bg-white border border-gray-300 text-gray-700 rounded-lg px-4 py-2 border-b  focus:outline-none focus:border-blue-400 focus:ringy-2 focus:ring-blue-100 transition shadow-sm">
+                            <option value="Income">Income</option>
+                            <option value="Expense">Expense</option>
+                        </select>
+
+                        <button type="submit"
+                            class="bg-blue-600 text-white py-2 px-3 border-b border-gray-200 rounded-lg hover:bg-blue-700 transition duration-500 shadow-md">
+                            Add Transaction
+                        </button>
+                    </form>
+                </div>
+                <div class="reports-section hidden">
+                    <div class="canvas-container h-64 w-full flex justify-center">
+                        <canvas class="report"></canvas>
+                    </div>
+                    <div class="reports-table mt-3 w-full flex justify-center">
+                        <table class="activity-table w-full border-collapse border border-gray-200 shadow-lg">
+                            <thead>
+                                <tr class="text-center p-4">
+                                    <th class="py-2 px-3 border-b border-gray-200">Date</th>
+                                    <th class="py-2 px-3 border-b border-gray-200">Description</th>
+                                    <th class="py-2 px-3 border-b border-gray-200">Category</th>
+                                    <th class="py-2 px-3 border-b border-gray-200">Amount</th>
+                                </tr>
+                            </thead>
+                            <tbody class="manage-rooms-tbody mt-4">
+                                <tr class="text-center p-4 ">
+                                    <td class="py-4 px-3 border-b border-gray-200">March 13</td>
+                                    <td class="py-4 px-3 border-b border-gray-200">1kg Chicken</td>
+                                    <td class="py-4 px-3 border-b border-gray-200">300</td>
+                                    <td class="py-4 px-3 border-b border-gray-200">
+                                        <span class="py-1 px-3 bg-orange-300 text-gray-100 rounded-lg">Fooding</span>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
+    <script src="src/script/script.js" type="module"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </body>
 
 </html>
