@@ -21,30 +21,42 @@
 // const app = initializeApp(firebaseConfig);
 // const analytics = getAnalytics(app);
 
+let mainSectionWrapper = document.querySelector(".main-section-wrapper");
 let dashboardBtn = document.querySelector(".tab-button-dashboard");
 let reportsBtn = document.querySelector(".tab-button-report");
-let mainSectionWrapper = document.querySelector(".main-section-wrapper");
 reportsBtn.addEventListener("click", showReports);
-dashboardBtn.addEventListener("click",showTransaction)
+dashboardBtn.addEventListener("click", showTransaction);
 let reportsContainer = document.querySelector(".reports-section");
 let dashboardContainer = document.querySelector(".new-transaction-section");
 function showReports() {
+  setActiveTab(reportsBtn);
   reportsContainer.style.display = "block";
   dashboardContainer.style.display = "none";
+  populateTable();
 }
 function showTransaction() {
+  setActiveTab(dashboardBtn);
   dashboardContainer.style.display = "block";
   reportsContainer.style.display = "none";
 }
+function setActiveTab(activeButton) {
+  // Remove active class from all buttons
+  document
+    .querySelectorAll(".tab-button-dashboard, .tab-button-report")
+    .forEach((button) => {
+      button.classList.remove("active");
+    });
+  // Add active class to the clicked button
+  activeButton.classList.add("active");
+}
 const ctx = document.querySelector(".report");
-console.log(ctx);
 new Chart(ctx, {
   type: "doughnut",
   data: {
     labels: ["Income", "Expense"],
     datasets: [
       {
-        label: "# of Votes",
+        label: "% of Amount spent",
         data: [12, 19],
         borderWidth: 1,
       },
@@ -60,15 +72,86 @@ new Chart(ctx, {
         bottom: 20,
       },
     },
-    plugins: {
-      legend: {
-        display: false, // Set to false to remove the graph labels
-      },
-    },
-    scales: {
-      y: {
-        beginAtZero: true,
-      },
-    },
+
+    // scales: {
+    //   x: {
+    //     ticks: {
+    //       display: false, // Set to false to remove the x-axis labels
+    //     },
+    //   },
+    //   y: {
+    //     ticks: {
+    //       display: false, // Set to false to remove the y-axis labels
+    //     },
+    //     beginAtZero: true,
+    //   },
+    // },
   },
 });
+let submitBtn = document.querySelector(".submit-transaction");
+submitBtn.addEventListener("click", (e) => {
+  e.preventDefault();
+  addNewTransaction();
+  updateAmountInfo();
+
+});
+function addNewTransaction() {
+  let amountInputField = document.querySelector(".input-amount");
+  let descriptionInputField = document.querySelector(".input-description");
+  let amountTypeInputField = document.querySelector(".amount-type");
+  let transaction = {
+    amount: amountInputField.value,
+    description: descriptionInputField.value,
+    amountType: amountTypeInputField.value,
+    time: new Date().toLocaleDateString(),
+  };
+  saveTransaction(transaction);
+}
+function saveTransaction(transaction) {
+  let transactions = getTransactionData() || {};
+  const transactionId = new Date().getTime().toString().slice(6);
+  transactions[transactionId] = transaction;
+  localStorage.setItem("transactions", JSON.stringify(transactions));
+  // updateTransaction(transaction);
+}
+function getTransactionData() {
+  return JSON.parse(localStorage.getItem("transactions")) || {};
+}
+// function updateTransaction(transaction) {
+//   const transactions = getTransactionData();
+//   const transactionId = new Date().getTime().toString(); // Use timestamp as unique ID
+//   transactions[transactionId] = transaction;
+//   localStorage.setItem("transactions", JSON.stringify(transactions));
+// }
+function populateTable() {
+  updateAmountInfo();
+  const transactions = getTransactionData();
+  const transactionsTbody = document.querySelector(
+    ".manage-transactions-tbody",
+  );
+  transactionsTbody.innerHTML = "";
+  Object.entries(transactions).map(([id, data]) => {
+    const newRow = `
+      <tr class = "p-4 text-center">
+        <td class="border-b border-gray-200 px-3 py-4" data-label = "Time">${data.time}</td>
+        <td class="border-b border-gray-200 px-3 py-4" data-label = "Description">${data.description}</td>
+        <td class="border-b border-gray-200 px-3 py-4" data-label = "Amount">${data.amount}</td>
+        <td class="border-b border-gray-200 px-3 py-4" data-label = "Type">
+          <span class="rounded-lg bg-orange-300 px-3 py-1 text-gray-100">${data.amountType}</span>
+        </td>
+      </tr>
+    `;
+    transactionsTbody.insertAdjacentHTML("beforeend", newRow);
+  });
+}
+let totalIncome;
+function updateAmountInfo() {
+  const transactionsTotal = getTransactionData();
+  totalIncome = 0;
+  Object.entries(transactionsTotal).map(([id, data]) => {
+    console.log(data.amount);
+    totalIncome += Number(data.amount);
+  });
+  let incomeAmountDisplay = document.querySelector(".income-amount");
+  incomeAmountDisplay.innerHTML = totalIncome + "$";
+}
