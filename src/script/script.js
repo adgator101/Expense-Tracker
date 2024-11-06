@@ -7,7 +7,6 @@
 // // Your web app's Firebase configuration
 // // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 // const firebaseConfig = {
-//   apiKey: "AIzaSyAS74xlvS9mOiX3DnQ8XhFv6WYdgRy5bDs",
 //   authDomain: "expense-tracker-f4ede.firebaseapp.com",
 //   databaseURL: "https://expense-tracker-f4ede-default-rtdb.asia-southeast1.firebasedatabase.app",
 //   projectId: "expense-tracker-f4ede",
