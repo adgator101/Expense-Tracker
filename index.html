@@ -9,39 +9,7 @@
       href="https://fonts.googleapis.com/css?family=Poppins"
       rel="stylesheet"
     />
-    <style>
-      html,
-      body {
-        height: 100%;
-        width: 100%;
-      }
-      .tab-button-dashboard.active,
-      .tab-button-report.active {
-        background-color: #4a5568;
-        color: white;
-      }
-      @media (max-width: 768px) {
-        th {
-          display: none;
-        }
-        td {
-          display: grid;
-          grid-template-columns: 15ch auto;
-          gap: 0.8rem;
-          align-items: center;
-        }
-        td:first-child {
-          padding-top: 2rem;
-        }
-        td:last-child {
-          padding-bottom: 2rem;
-        }
-        td::before {
-          content: attr(data-label) " : ";
-          text-align: left;
-        }
-      }
-    </style>
+    <style></style>
   </head>
 
   <body>
@@ -71,7 +39,7 @@
         </nav>
 
         <div
-          class="balance-info mt-6 rounded-lg bg-blue-600 p-6 text-white shadow-md flex flex-col gap-3"
+          class="balance-info mt-6 flex flex-col gap-3 rounded-lg bg-blue-600 p-6 text-white shadow-md"
         >
           <div class="income-info flex items-center justify-between px-4 py-2">
             <div class="income-title text-lg font-semibold text-white">
@@ -92,7 +60,7 @@
         <div class="main-section-wrapper my-6 w-full rounded-md px-3 py-2">
           <div class="new-transaction-section">
             <div
-              class="new-transaction-title py-3 text-center text-base font-bold"
+              class="new-transaction-title py-3 text-center text-xl font-extrabold"
             >
               Add New Transaction
             </div>
@@ -127,22 +95,29 @@
             <div class="canvas-container flex h-64 w-full justify-center">
               <canvas class="report"></canvas>
             </div>
+            <div class="separator m-auto mt-4 h-0.5 w-11/12 bg-gray-100"></div>
+            <div
+              class="new-transaction-title py-3 text-center text-xl font-extrabold"
+            >
+              Transaction Details
+            </div>
             <div class="reports-table mt-3 flex w-full justify-center">
               <table
                 class="activity-table w-full border-collapse border border-gray-200 shadow-lg md:table"
               >
                 <thead>
                   <tr class="p-4 text-center">
-                    <th class="border-b border-gray-200 px-3 py-2">Date</th>
+                    <th class="border-b border-gray-200 px-3 py-2">Id</th>
                     <th class="border-b border-gray-200 px-3 py-2">
                       Description
                     </th>
                     <th class="border-b border-gray-200 px-3 py-2">Category</th>
                     <th class="border-b border-gray-200 px-3 py-2">Amount</th>
+                    <th class="border-b border-gray-200 px-3 py-2">Date</th>
                   </tr>
                 </thead>
                 <tbody class="manage-transactions-tbody mt-4">
-                  <tr class="p-4 text-center">
+                  <!-- <tr class="p-4 text-center">
                     <td class="border-b border-gray-200 px-3 py-4">March 13</td>
                     <td class="border-b border-gray-200 px-3 py-4">
                       1kg Chicken
@@ -150,33 +125,15 @@
                     <td class="border-b border-gray-200 px-3 py-4">300</td>
                     <td class="border-b border-gray-200 px-3 py-4">
                       <span
-                        class="rounded-lg bg-orange-300 px-3 py-1 text-gray-100"
+                        class="bg-orange rounded-lg px-3 py-1 text-gray-100"
                       >
                         Fooding
                       </span>
                     </td>
-                  </tr>
+                  </tr> -->
                 </tbody>
               </table>
             </div>
-            <!-- <div class="table-details">
-              <div class="date-info flex justify-between p-3">
-                <div class="date-label font-bold">Date:</div>
-                <div class="date">2024</div>
-              </div>
-              <div class="category-info flex justify-between p-3">
-                <div class="category-label font-bold">Category:</div>
-                <div class="category">Food</div>
-              </div>
-              <div class="amount-info flex justify-between p-3">
-                <div class="amount-label font-bold">Amount:</div>
-                <div class="amount">500$</div>
-              </div>
-              <div class="type-info flex justify-between p-3">
-                <div class="type-label font-bold">Type:</div>
-                <div class="type">Expense</div>
-              </div>
-            </div> -->
           </div>
         </div>
       </div>

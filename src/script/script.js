@@ -28,15 +28,19 @@ document.addEventListener("DOMContentLoaded", () => {
 let mainSectionWrapper = document.querySelector(".main-section-wrapper");
 let dashboardBtn = document.querySelector(".tab-button-dashboard");
 let reportsBtn = document.querySelector(".tab-button-report");
-reportsBtn.addEventListener("click", showReports);
-dashboardBtn.addEventListener("click", showTransaction);
 let reportsContainer = document.querySelector(".reports-section");
 let dashboardContainer = document.querySelector(".new-transaction-section");
+
+// Event Listeners
+reportsBtn.addEventListener("click", showReports);
+dashboardBtn.addEventListener("click", showTransaction);
+
+// Functions
 function showReports() {
   setActiveTab(reportsBtn);
   reportsContainer.style.display = "block";
   dashboardContainer.style.display = "none";
-  populateTable();
+  populateTable(); // Shows the table also updates if new data is added
 }
 function showTransaction() {
   setActiveTab(dashboardBtn);
@@ -62,8 +66,8 @@ const chart = new Chart(ctx, {
       {
         label: " % of Amount Spent",
         data: [0, 0], // Initial data
-        backgroundColor: ["#3498db", "#e67e22"], // Colors for Income and Expense
-        borderWidth: 1,
+        backgroundColor: ["rgb(134, 239, 172)", "rgb(253, 186, 116)"], // Colors for Income and Expense
+        borderWidth: 2,
       },
     ],
     hoverOffset: 4,
@@ -83,6 +87,7 @@ const chart = new Chart(ctx, {
         position: "nearest",
         callbacks: {
           label: function (context) {
+            // Shows label on this pattern " Income: 50%"
             return context.label + ": " + context.raw + " % ";
           },
         },
@@ -126,20 +131,29 @@ function getTransactionData() {
 //   localStorage.setItem("transactions", JSON.stringify(transactions));
 // }
 function populateTable() {
-  updateAmountInfo();
   const transactions = getTransactionData();
+  const incomeClassName = "bg-green-300 text-gray-300";
+  const expenseClassName = "bg-orange-300 text-gray-200";
   const transactionsTbody = document.querySelector(
     ".manage-transactions-tbody",
   );
   transactionsTbody.innerHTML = "";
   Object.entries(transactions).map(([id, data]) => {
+    let amountTypeClassName;
+    // Assings className of type label accordingly
+    amountTypeClassName =
+      data.amountType == "Income" ? incomeClassName : expenseClassName;
     const newRow = `
-      <tr class = "p-4 text-center">
-        <td class="border-b border-gray-200 px-3 py-4" data-label = "Time">${data.time}</td>
+      <tr class = "p-4 text-center hover:bg-gray-300 transition ">
+        <td class="border-b border-gray-200 px-3 py-4" data-label = "Id">${id}</td>
         <td class="border-b border-gray-200 px-3 py-4" data-label = "Description">${data.description}</td>
         <td class="border-b border-gray-200 px-3 py-4" data-label = "Amount">${data.amount}</td>
         <td class="border-b border-gray-200 px-3 py-4" data-label = "Type">
-          <span class="rounded-lg bg-orange-300 px-3 py-1 text-gray-100">${data.amountType}</span>
+          <span class="rounded-lg px-3 py-1 ${amountTypeClassName}">
+            ${data.amountType}
+          </span>
+        </td>
+        <td class="border-b border-gray-200 px-3 py-4" data-label = "Time">${data.time}</td>
         </td>
       </tr>
     `;
@@ -163,7 +177,7 @@ function updateAmountInfo() {
   });
   incomeAmountDisplay.innerHTML = totalIncome + "$";
   expenseAmountDisplay.innerHTML = totalExpense + "$";
-  updateChartData();
+  updateChartData(); // Updates chart data after new source is added
 }
 
 function updateChartData() {
