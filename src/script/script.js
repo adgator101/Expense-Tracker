@@ -20,7 +20,12 @@
 // // Initialize Firebase
 // const app = initializeApp(firebaseConfig);
 // const analytics = getAnalytics(app);
-
+document.addEventListener("DOMContentLoaded", () => {
+  updateAmountInfo();
+  if (getTransactionData()) {
+    updateChartData();
+  }
+});
 let mainSectionWrapper = document.querySelector(".main-section-wrapper");
 let dashboardBtn = document.querySelector(".tab-button-dashboard");
 let reportsBtn = document.querySelector(".tab-button-report");
@@ -50,14 +55,15 @@ function setActiveTab(activeButton) {
   activeButton.classList.add("active");
 }
 const ctx = document.querySelector(".report");
-new Chart(ctx, {
+const chart = new Chart(ctx, {
   type: "doughnut",
   data: {
-    labels: ["Income", "Expense"],
+    labels: [" Income", " Expense"],
     datasets: [
       {
-        label: "% of Amount spent",
-        data: [12, 19],
+        label: " % of Amount Spent",
+        data: [0, 0], // Initial data
+        backgroundColor: ["#3498db", "#e67e22"], // Colors for Income and Expense
         borderWidth: 1,
       },
     ],
@@ -72,28 +78,25 @@ new Chart(ctx, {
         bottom: 20,
       },
     },
-
-    // scales: {
-    //   x: {
-    //     ticks: {
-    //       display: false, // Set to false to remove the x-axis labels
-    //     },
-    //   },
-    //   y: {
-    //     ticks: {
-    //       display: false, // Set to false to remove the y-axis labels
-    //     },
-    //     beginAtZero: true,
-    //   },
-    // },
+    plugins: {
+      tooltip: {
+        enabled: true,
+        position: "nearest",
+        callbacks: {
+          label: function (context) {
+            return context.label + ": " + context.raw + " % ";
+          },
+        },
+      },
+    },
   },
 });
+
 let submitBtn = document.querySelector(".submit-transaction");
 submitBtn.addEventListener("click", (e) => {
   e.preventDefault();
   addNewTransaction();
   updateAmountInfo();
-
 });
 function addNewTransaction() {
   let amountInputField = document.querySelector(".input-amount");
@@ -144,14 +147,41 @@ function populateTable() {
     transactionsTbody.insertAdjacentHTML("beforeend", newRow);
   });
 }
-let totalIncome;
+
 function updateAmountInfo() {
-  const transactionsTotal = getTransactionData();
-  totalIncome = 0;
-  Object.entries(transactionsTotal).map(([id, data]) => {
-    console.log(data.amount);
-    totalIncome += Number(data.amount);
-  });
   let incomeAmountDisplay = document.querySelector(".income-amount");
+  let expenseAmountDisplay = document.querySelector(".expense-amount");
+  const transactionsTotal = getTransactionData();
+  let totalIncome = 0;
+  let totalExpense = 0;
+  Object.entries(transactionsTotal).map(([id, data]) => {
+    // console.log(data.amount);
+    if (data.amountType == "Expense") {
+      totalExpense += Number(data.amount);
+    } else {
+      totalIncome += Number(data.amount);
+    }
+  });
   incomeAmountDisplay.innerHTML = totalIncome + "$";
+  expenseAmountDisplay.innerHTML = totalExpense + "$";
+  updateChartData();
+}
+
+function updateChartData() {
+  const transactionsTotal = getTransactionData();
+  let totalIncome = 0;
+  let totalExpense = 0;
+  Object.entries(transactionsTotal).forEach(([id, data]) => {
+    if (data.amountType === "Income") {
+      totalIncome += Number(data.amount);
+    } else if (data.amountType === "Expense") {
+      totalExpense += Number(data.amount);
+    }
+  });
+  let total = totalIncome + totalExpense;
+  let incomePer = total ? ((totalIncome / total) * 100).toFixed(1) : 1;
+  let expensePer = total ? ((totalExpense / total) * 100).toFixed(1) : 1;
+  // return [incomePer, expensePer];
+  chart.data.datasets[0].data = [incomePer, expensePer];
+  chart.update();
 }
