@@ -30,6 +30,7 @@ let dashboardBtn = document.querySelector(".tab-button-dashboard");
 let reportsBtn = document.querySelector(".tab-button-report");
 let reportsContainer = document.querySelector(".reports-section");
 let dashboardContainer = document.querySelector(".new-transaction-section");
+let errorDialogTimeoutId; // Timeout id for error card dialog
 
 // Event Listeners
 reportsBtn.addEventListener("click", showReports);
@@ -106,20 +107,25 @@ function addNewTransaction() {
   let amountInputField = document.querySelector(".input-amount");
   let descriptionInputField = document.querySelector(".input-description");
   let amountTypeInputField = document.querySelector(".amount-type");
-  if(amountInputField.value == ""){
-    
+  if (amountInputField.value == "") {
+    showErrorCard("Enter a valid amount");
+    return;
+  } else if (descriptionInputField.value == "") {
+    showErrorCard("Enter description of the amount");
+    return;
   }
   let transaction = {
     amount: amountInputField.value,
     description: descriptionInputField.value,
     amountType: amountTypeInputField.value,
     time: new Date().toLocaleDateString(),
-  };  
+  };
   saveTransaction(transaction);
+  clearInputField(amountInputField, descriptionInputField);
 }
 function saveTransaction(transaction) {
   let transactions = getTransactionData() || {};
-  const transactionId = new Date().getTime().toString().slice(6);
+  const transactionId = new Date().getTime().toString().slice(8);
   transactions[transactionId] = transaction;
   localStorage.setItem("transactions", JSON.stringify(transactions));
   // updateTransaction(transaction);
@@ -127,12 +133,6 @@ function saveTransaction(transaction) {
 function getTransactionData() {
   return JSON.parse(localStorage.getItem("transactions")) || {};
 }
-// function updateTransaction(transaction) {
-//   const transactions = getTransactionData();
-//   const transactionId = new Date().getTime().toString(); // Use timestamp as unique ID
-//   transactions[transactionId] = transaction;
-//   localStorage.setItem("transactions", JSON.stringify(transactions));
-// }
 function populateTable() {
   const transactions = getTransactionData();
   const incomeClassName = "bg-green-300";
@@ -200,4 +200,29 @@ function updateChartData() {
   // return [incomePer, expensePer];
   chart.data.datasets[0].data = [incomePer, expensePer];
   chart.update();
+}
+function clearInputField(amount, description) {
+  amount.value = "";
+  description.value = "";
+}
+// Error dialog section
+function showErrorCard(message) {
+  let errorCardContainer = document.querySelector(".error-card-container");
+  let errorMessageContainer = document.querySelector(".error-message");
+  errorMessageContainer.textContent = message;
+  errorCardContainer.style.display = "flex";
+  errorCardContainer.classList.remove("card-hide");
+  errorCardContainer.classList.add("card-visible");
+  // Automatically hides the error card after 3 seconds
+  setTimeout(() => {
+    hideErrorCard(errorCardContainer);
+  }, 3000);
+}
+function hideErrorCard(errorCard) {
+  clearTimeout(errorDialogTimeoutId);
+  errorCard.classList.add("card-hide");
+  errorCard.classList.remove("card-visible");
+  errorDialogTimeoutId = setTimeout(() => {
+    errorCard.style.display = "none";
+  }, 1190);
 }
