@@ -106,12 +106,15 @@ function addNewTransaction() {
   let amountInputField = document.querySelector(".input-amount");
   let descriptionInputField = document.querySelector(".input-description");
   let amountTypeInputField = document.querySelector(".amount-type");
+  if(amountInputField.value == ""){
+    
+  }
   let transaction = {
     amount: amountInputField.value,
     description: descriptionInputField.value,
     amountType: amountTypeInputField.value,
     time: new Date().toLocaleDateString(),
-  };
+  };  
   saveTransaction(transaction);
 }
 function saveTransaction(transaction) {
@@ -132,7 +135,7 @@ function getTransactionData() {
 // }
 function populateTable() {
   const transactions = getTransactionData();
-  const incomeClassName = "bg-green-300 text-gray-300";
+  const incomeClassName = "bg-green-300";
   const expenseClassName = "bg-orange-300 text-gray-200";
   const transactionsTbody = document.querySelector(
     ".manage-transactions-tbody",

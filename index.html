@@ -14,7 +14,7 @@
 
   <body>
     <div
-      class="wrapper flex min-h-full w-screen items-center justify-center bg-gray-300 px-4 font-pop md:px-0"
+      class="wrapper flex min-h-full w-screen items-center justify-center bg-gray-300 px-4 py-2 font-pop md:px-0 md:py-0"
     >
       <div
         class="container rounded-lg bg-white px-6 py-4 text-sm shadow-md md:max-w-lg"
@@ -85,7 +85,7 @@
 
               <button
                 type="submit"
-                class="submit-transaction rounded-lg border-b border-gray-200 bg-blue-600 px-3 py-2 text-white shadow-md transition duration-500 hover:bg-blue-700"
+                class="submit-transaction rounded-lg border-b border-gray-200 bg-blue-600 px-3 py-2.5 text-base text-white shadow-md transition duration-500 hover:bg-blue-700"
               >
                 Add Transaction
               </button>
@@ -117,7 +117,8 @@
                   </tr>
                 </thead>
                 <tbody class="manage-transactions-tbody mt-4">
-                  <!-- <tr class="p-4 text-center">
+                  <!-- Dummy Contents to help generate tailwind classes -->
+                  <tr class="p-4 text-center">
                     <td class="border-b border-gray-200 px-3 py-4">March 13</td>
                     <td class="border-b border-gray-200 px-3 py-4">
                       1kg Chicken
@@ -125,12 +126,17 @@
                     <td class="border-b border-gray-200 px-3 py-4">300</td>
                     <td class="border-b border-gray-200 px-3 py-4">
                       <span
-                        class="bg-orange rounded-lg px-3 py-1 text-gray-100"
+                        class="bg-orange rounded-lg bg-green-300 px-3 py-1 text-gray-400"
+                      >
+                        Fooding
+                      </span>
+                      <span
+                        class="bg-orange rounded-lg bg-orange-300 px-3 py-1 text-gray-300"
                       >
                         Fooding
                       </span>
                     </td>
-                  </tr> -->
+                  </tr>
                 </tbody>
               </table>
             </div>
@@ -138,6 +144,31 @@
         </div>
       </div>
     </div>
+    <div
+      class="max-w-84 absolute right-20 top-6 max-h-24 rounded-b border-l-4 border-red-300 bg-orange-100 px-4 py-3 text-teal-900 shadow-md animate-slideIn opacity-0"
+      role="alert"
+    >
+      <div class="flex items-center justify-center">
+        <div class="py-1">
+          <svg
+            class="mr-4 h-6 w-6 fill-current text-teal-500"
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 20 20"
+          >
+            <path
+              d="M2.93 17.07A10 10 0 1 1 17.07 2.93 10 10 0 0 1 2.93 17.07zm12.73-1.41A8 8 0 1 0 4.34 4.34a8 8 0 0 0 11.32 11.32zM9 11V9h2v6H9v-4zm0-6h2v2H9V5z"
+            />
+          </svg>
+        </div>
+        <div>
+          <p class="font-bold">Error !!</p>
+          <p class="error-message pr-6 pt-0.5 text-sm">
+            Please enter the amount
+          </p>
+        </div>
+      </div>
+    </div>
+
     <script src="src/script/script.js" type="module"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   </body>

@@ -11,6 +11,14 @@ body {
   background-color: #4a5568;
   color: white;
 }
+.visible {
+  @apply animate-slideIn;
+  opacity: 1;
+}
+.hide {
+  @apply animate-slideOut;
+  opacity: 0;
+}
 @media (max-width: 768px) {
   th {
     display: none;
