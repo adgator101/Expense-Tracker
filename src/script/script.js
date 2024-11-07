@@ -82,6 +82,10 @@ submitBtn.addEventListener("click", (e) => {
   addNewTransaction();
   updateAmountInfo();
 });
+function formatLargeNumber(number) {
+  const formatter = Intl.NumberFormat("en", { notation: "compact" });
+  return formatter.format(number);
+}
 function addNewTransaction() {
   let amountInputField = document.querySelector(".input-amount");
   let descriptionInputField = document.querySelector(".input-description");
@@ -128,7 +132,7 @@ function populateTable() {
       <tr class = "p-4 text-center hover:bg-gray-300 transition ">
         <td class="border-b border-gray-200 px-3 py-4" data-label = "Id">${id}</td>
         <td class="border-b border-gray-200 px-3 py-4" data-label = "Description">${data.description}</td>
-        <td class="border-b border-gray-200 px-3 py-4" data-label = "Amount">${data.amount}</td>
+        <td class="border-b border-gray-200 px-3 py-4" data-label = "Amount">${formatLargeNumber(data.amount)}</td>
         <td class="border-b border-gray-200 px-3 py-4" data-label = "Type">
           <span class="rounded-lg px-3 py-1 ${amountTypeClassName}">
             ${data.amountType}
@@ -155,8 +159,8 @@ function updateAmountInfo() {
       totalIncome += Number(data.amount);
     }
   });
-  incomeAmountDisplay.innerHTML = totalIncome + "$";
-  expenseAmountDisplay.innerHTML = totalExpense + "$";
+  incomeAmountDisplay.innerHTML = formatLargeNumber(totalIncome) + " $";
+  expenseAmountDisplay.innerHTML = formatLargeNumber(totalExpense) + " $";
   updateChartData(); // Updates chart data after new source is added
 }
 
