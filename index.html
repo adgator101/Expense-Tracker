@@ -15,10 +15,10 @@
     <div
       class="wrapper flex min-h-full w-screen items-center justify-center bg-gray-300 px-4 pt-2 font-pop md:px-0"
     >
-      <div
-        class="container rounded-lg bg-white px-6 py-4 text-sm shadow-md md:max-w-xl"
-      >
-        <nav class="flex justify-around rounded-lg p-3">
+      <div class="container rounded-lg px-6 py-4 text-sm md:max-w-xl">
+        <nav
+          class="to-gray-109 flex justify-around rounded-lg bg-gradient-to-r from-white to-gray-100 p-3"
+        >
           <ul class="flex space-x-1 md:space-x-6">
             <li>
               <button
@@ -36,108 +36,121 @@
             </li>
           </ul>
         </nav>
-
-        <div
-          class="balance-info mt-6 flex flex-col gap-3 rounded-lg bg-blue-600 p-6 text-white shadow-md"
-        >
-          <div class="income-info flex items-center justify-between px-4 py-2">
-            <div class="income-title text-lg font-semibold text-white">
-              Income
-            </div>
-            <div class="income-amount text-xl font-bold text-green-300">
-              0 $
-            </div>
-          </div>
-          <div class="separator m-auto h-0.5 w-11/12 bg-gray-100"></div>
-          <div class="expense-info flex items-center justify-between px-4 py-3">
-            <div class="expense-title text-lg font-semibold text-white">
-              Expense
-            </div>
-            <div class="expense-amount text-xl font-bold text-red-300">0 $</div>
-          </div>
-        </div>
-        <div class="main-section-wrapper my-6 w-full rounded-md px-3 py-2">
-          <div class="new-transaction-section">
+        <div class="content-wrapper mt-4 rounded-lg bg-white p-4">
+          <div
+            class="balance-info mt-6 flex flex-col gap-3 rounded-lg bg-blue-600 p-6 text-white shadow-md"
+          >
             <div
-              class="new-transaction-title py-3 text-center text-xl font-extrabold"
+              class="income-info flex items-center justify-between px-4 py-2"
             >
-              Add New Transaction
+              <div class="income-title text-lg font-semibold text-white">
+                Income
+              </div>
+              <div class="income-amount text-xl font-bold text-green-300">
+                0 $
+              </div>
             </div>
-            <form
-              class="add-new-transaction pxy-2 flex flex-col gap-5 px-3 py-3"
-            >
-              <input
-                class="input-amount ease w-full rounded-md border border-b border-slate-200 bg-transparent px-3 py-2 text-sm text-slate-700 shadow-sm transition duration-300 placeholder:text-slate-400 hover:border-slate-300 focus:border-slate-400 focus:shadow focus:outline-none"
-                placeholder="Enter amount"
-              />
-              <input
-                class="input-description ease w-full rounded-md border border-slate-200 bg-transparent px-3 py-2 text-sm text-slate-700 shadow-sm transition duration-300 placeholder:text-slate-400 hover:border-slate-300 focus:border-slate-400 focus:shadow focus:outline-none"
-                placeholder="Enter description"
-              />
-
-              <select
-                class="amount-type focus:ringy-2 rounded-lg border border-b border-gray-300 bg-white px-4 py-2 text-gray-700 shadow-sm transition focus:border-blue-400 focus:outline-none focus:ring-blue-100"
-              >
-                <option value="Income">Income</option>
-                <option value="Expense">Expense</option>
-              </select>
-
-              <button
-                type="submit"
-                class="submit-transaction rounded-lg border-b border-gray-200 bg-blue-600 px-3 py-2.5 text-base text-white shadow-md transition duration-500 hover:bg-blue-700"
-              >
-                Add Transaction
-              </button>
-            </form>
-          </div>
-          <div class="reports-section hidden">
-            <div class="canvas-container flex h-64 w-full justify-center">
-              <canvas class="report"></canvas>
-            </div>
-            <div class="separator m-auto mt-4 h-0.5 w-11/12 bg-gray-100"></div>
+            <div class="separator m-auto h-0.5 w-11/12 bg-gray-100"></div>
             <div
-              class="new-transaction-title py-3 text-center text-xl font-extrabold"
+              class="expense-info flex items-center justify-between px-4 py-3"
             >
-              Transaction Details
+              <div class="expense-title text-lg font-semibold text-white">
+                Expense
+              </div>
+              <div class="expense-amount text-xl font-bold text-red-300">
+                0 $
+              </div>
             </div>
-            <div class="reports-table mt-3 flex w-full justify-center">
-              <table
-                class="activity-table w-full border-collapse border border-gray-200 shadow-lg md:table"
+          </div>
+          <div class="main-section-wrapper my-6 w-full rounded-md px-3 py-2">
+            <div class="new-transaction-section">
+              <div
+                class="new-transaction-title py-3 text-center text-xl font-extrabold"
               >
-                <thead>
-                  <tr class="p-4 text-center">
-                    <th class="border-b border-gray-200 px-3 py-2">Id</th>
-                    <th class="border-b border-gray-200 px-3 py-2">
-                      Description
-                    </th>
-                    <th class="border-b border-gray-200 px-3 py-2">Category</th>
-                    <th class="border-b border-gray-200 px-3 py-2">Amount</th>
-                    <th class="border-b border-gray-200 px-3 py-2">Date</th>
-                  </tr>
-                </thead>
-                <tbody class="manage-transactions-tbody mt-4">
-                  <!-- Dummy Contents to help generate tailwind classes -->
-                  <tr class="p-4 text-center">
-                    <td class="border-b border-gray-200 px-3 py-4">March 13</td>
-                    <td class="border-b border-gray-200 px-3 py-4">
-                      1kg Chicken
-                    </td>
-                    <td class="border-b border-gray-200 px-3 py-4">300</td>
-                    <td class="border-b border-gray-200 px-3 py-4">
-                      <span
-                        class="bg-orange rounded-lg bg-green-300 px-3 py-1 text-gray-400"
-                      >
-                        Fooding
-                      </span>
-                      <span
-                        class="bg-orange rounded-lg bg-orange-300 px-3 py-1 text-gray-300"
-                      >
-                        Fooding
-                      </span>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
+                Add New Transaction
+              </div>
+              <form
+                class="add-new-transaction pxy-2 flex flex-col gap-5 px-3 py-3"
+              >
+                <input
+                  class="input-amount ease w-full rounded-md border border-b border-slate-200 bg-transparent px-3 py-2 text-sm text-slate-700 shadow-sm transition duration-300 placeholder:text-slate-400 hover:border-slate-300 focus:border-slate-400 focus:shadow focus:outline-none"
+                  placeholder="Enter amount"
+                />
+                <input
+                  class="input-description ease w-full rounded-md border border-slate-200 bg-transparent px-3 py-2 text-sm text-slate-700 shadow-sm transition duration-300 placeholder:text-slate-400 hover:border-slate-300 focus:border-slate-400 focus:shadow focus:outline-none"
+                  placeholder="Enter description"
+                />
+
+                <select
+                  class="amount-type focus:ringy-2 rounded-lg border border-b border-gray-300 bg-white px-4 py-2 text-gray-700 shadow-sm transition focus:border-blue-400 focus:outline-none focus:ring-blue-100"
+                >
+                  <option value="Income">Income</option>
+                  <option value="Expense">Expense</option>
+                </select>
+
+                <button
+                  type="submit"
+                  class="submit-transaction rounded-lg border-b border-gray-200 bg-blue-600 px-3 py-2.5 text-base text-white shadow-md transition duration-500 hover:bg-blue-700"
+                >
+                  Add Transaction
+                </button>
+              </form>
+            </div>
+            <div class="reports-section hidden">
+              <div class="canvas-container flex h-64 w-full justify-center">
+                <canvas class="report"></canvas>
+              </div>
+              <div
+                class="separator m-auto mt-4 h-0.5 w-11/12 bg-gray-100"
+              ></div>
+              <div
+                class="new-transaction-title py-3 text-center text-xl font-extrabold"
+              >
+                Transaction Details
+              </div>
+              <div class="reports-table mt-3 flex w-full justify-center">
+                <table
+                  class="activity-table w-full border-collapse border border-gray-200 shadow-lg md:table"
+                >
+                  <thead>
+                    <tr class="p-4 text-center">
+                      <th class="border-b border-gray-200 px-3 py-2">Id</th>
+                      <th class="border-b border-gray-200 px-3 py-2">
+                        Description
+                      </th>
+                      <th class="border-b border-gray-200 px-3 py-2">
+                        Category
+                      </th>
+                      <th class="border-b border-gray-200 px-3 py-2">Amount</th>
+                      <th class="border-b border-gray-200 px-3 py-2">Date</th>
+                    </tr>
+                  </thead>
+                  <tbody class="manage-transactions-tbody mt-4">
+                    <!-- Dummy Contents to help generate tailwind classes -->
+                    <tr class="p-4 text-center">
+                      <td class="border-b border-gray-200 px-3 py-4">
+                        March 13
+                      </td>
+                      <td class="border-b border-gray-200 px-3 py-4">
+                        1kg Chicken
+                      </td>
+                      <td class="border-b border-gray-200 px-3 py-4">300</td>
+                      <td class="border-b border-gray-200 px-3 py-4">
+                        <span
+                          class="bg-orange rounded-lg bg-green-300 px-3 py-1 text-gray-400"
+                        >
+                          Fooding
+                        </span>
+                        <span
+                          class="bg-orange rounded-lg bg-orange-300 px-3 py-1 text-gray-300"
+                        >
+                          Fooding
+                        </span>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
             </div>
           </div>
         </div>
