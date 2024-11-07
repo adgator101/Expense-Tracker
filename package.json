@@ -9,7 +9,7 @@
     "watch": "npx tailwindcss -i src/input.css -o src/output.css --watch"
   },
   "dependencies": {
-    "firebase": "^11.0.1",
+    "dotenv": "^16.4.5",
     "watch": "^1.0.2"
   }
 }

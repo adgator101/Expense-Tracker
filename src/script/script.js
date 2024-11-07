@@ -1,24 +1,3 @@
-// // Import the functions you need from the SDKs you need
-// import { initializeApp } from "firebase/app";
-// import { getAnalytics } from "firebase/analytics";
-// // TODO: Add SDKs for Firebase products that you want to use
-// // https://firebase.google.com/docs/web/setup#available-libraries
-
-// // Your web app's Firebase configuration
-// // For Firebase JS SDK v7.20.0 and later, measurementId is optional
-// const firebaseConfig = {
-//   authDomain: "expense-tracker-f4ede.firebaseapp.com",
-//   databaseURL: "https://expense-tracker-f4ede-default-rtdb.asia-southeast1.firebasedatabase.app",
-//   projectId: "expense-tracker-f4ede",
-//   storageBucket: "expense-tracker-f4ede.firebasestorage.app",
-//   messagingSenderId: "782372323186",
-//   appId: "1:782372323186:web:de043f6b6a7f959aa767eb",
-//   measurementId: "G-VKY9LG3XPT"
-// };
-
-// // Initialize Firebase
-// const app = initializeApp(firebaseConfig);
-// const analytics = getAnalytics(app);
 document.addEventListener("DOMContentLoaded", () => {
   updateAmountInfo();
   if (getTransactionData()) {
@@ -128,7 +107,6 @@ function saveTransaction(transaction) {
   const transactionId = new Date().getTime().toString().slice(8);
   transactions[transactionId] = transaction;
   localStorage.setItem("transactions", JSON.stringify(transactions));
-  // updateTransaction(transaction);
 }
 function getTransactionData() {
   return JSON.parse(localStorage.getItem("transactions")) || {};
@@ -171,7 +149,6 @@ function updateAmountInfo() {
   let totalIncome = 0;
   let totalExpense = 0;
   Object.entries(transactionsTotal).map(([id, data]) => {
-    // console.log(data.amount);
     if (data.amountType == "Expense") {
       totalExpense += Number(data.amount);
     } else {
@@ -195,9 +172,9 @@ function updateChartData() {
     }
   });
   let total = totalIncome + totalExpense;
+  // If no data is present in localstorage then sends 1 to the chart object to make it visible
   let incomePer = total ? ((totalIncome / total) * 100).toFixed(1) : 1;
   let expensePer = total ? ((totalExpense / total) * 100).toFixed(1) : 1;
-  // return [incomePer, expensePer];
   chart.data.datasets[0].data = [incomePer, expensePer];
   chart.update();
 }
