@@ -29,7 +29,7 @@ This project allows users to track their daily expenses and income. This project
    ```sh
    npm install
    ```
-5. **Build the tailwind css output file**
+5. **Build and watch the tailwind css output file**
    ```sh
    npm run watch
    ```
