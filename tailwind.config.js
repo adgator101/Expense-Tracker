@@ -3,6 +3,9 @@ module.exports = {
   content: ["./*.html"],
   theme: {
     extend: {
+      backgroundColor: {
+        dim: "rgba(0, 0, 0, 0.5)",
+      },
       fontFamily: {
         pop: ["Poppins", "sans-serif"],
       },

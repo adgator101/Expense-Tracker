@@ -133,7 +133,9 @@ function saveTransaction(transaction) {
   transactions[transactionId] = transaction;
   localStorage.setItem("transactions", JSON.stringify(transactions));
 }
-
+function updateTransactions(transaction) {
+  localStorage.setItem("transactions", JSON.stringify(transaction));
+}
 function populateTable() {
   const transactions = getTransactionData();
   const incomeClassName = "bg-green-300";
@@ -167,9 +169,18 @@ function populateTable() {
         </td>
         <td class="border-b border-gray-200 px-3 py-4" data-label = "Time">${data.time}</td>
         </td>
+        <td class="border-b border-gray-200 px-3 py-4" data-label = "Time">
+           <button class="delete-data 00 rounded-md bg-red-400 px-3 py-2 text-white transition duration-300 hover:-translate-y-1">
+              <i class="fa-solid fa-trash"></i>
+            </button>
+        </td>
       </tr>
     `;
     transactionsTbody.insertAdjacentHTML("beforeend", newRow);
+  });
+  let deleteBtn = document.querySelectorAll(".delete-data");
+  deleteBtn.forEach((btn) => {
+    btn.addEventListener("click", showDeleteDialog);
   });
 }
 function getIncomeExpenseTotal() {
@@ -265,3 +276,35 @@ document.querySelectorAll(".dropdown-item").forEach((item) => {
     });
   });
 });
+
+function deleteData(row, transactionId) {
+  let transactionData = getTransactionData();
+  delete transactionData[transactionId];
+  updateTransactions(transactionData);
+  // Updates all the data in immediately
+  updateChartData();
+  updateAmountInfo();
+  populateTable();
+  // Deletes the row from table
+  row.remove();
+  // Hiding the dialog
+  hideDeleteDialog();
+}
+function showDeleteDialog(event) {
+  let deleteDialogContainer = document.querySelector(".delete-dialog-wrapper");
+  deleteDialogContainer.style.display = "flex";
+  let deleteCardBtn = document.querySelector(".confirm-delete-btn");
+  let cancelDeleteBtn = document.querySelectorAll(".cancel-delete-btn");
+  cancelDeleteBtn.forEach((btn) => {
+    btn.addEventListener("click", () => hideDeleteDialog());
+  });
+  const row = event.target.closest("tr");
+  const transactionId = row.cells[0].innerHTML;
+  deleteCardBtn.addEventListener("click", () => {
+    deleteData(row, transactionId);
+  });
+}
+function hideDeleteDialog() {
+  let deleteDialogContainer = document.querySelector(".delete-dialog-wrapper");
+  deleteDialogContainer.style.display = "none";
+}
