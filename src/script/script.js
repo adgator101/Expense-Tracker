@@ -90,12 +90,21 @@ submitBtn.addEventListener("click", (e) => {
   updateAmountInfo();
 });
 function formatLargeNumber(number) {
-  const formatter = Intl.NumberFormat("ne-NP", {
-    style: "currency",
-    currency: "NPR",
-    notation: "standard",
-  });
-  return formatter.format(number);
+  let formatter;
+  // Changes the formatting type according the the user screen
+  if (window.innerWidth <= 768) {
+    formatter = Intl.NumberFormat("en", {
+      notation: "compact",
+    });
+    return `NPR ${formatter.format(number)}`;
+  } else {
+    formatter = Intl.NumberFormat("ne-NP", {
+      style: "currency",
+      currency: "NPR",
+      notation: "standard",
+    });
+    return formatter.format(number);
+  }
 }
 
 function getTransactionData() {
