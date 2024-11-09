@@ -97,6 +97,10 @@ function formatLargeNumber(number) {
   });
   return formatter.format(number);
 }
+
+function getTransactionData() {
+  return JSON.parse(localStorage.getItem("transactions")) || {};
+}
 function addNewTransaction() {
   let amountInputField = document.querySelector(".input-amount");
   let descriptionInputField = document.querySelector(".input-description");
@@ -117,15 +121,19 @@ function addNewTransaction() {
   saveTransaction(transaction);
   clearInputField(amountInputField, descriptionInputField);
 }
+// Clears input field after new transaction is added
+function clearInputField(amount, description) {
+  amount.value = "";
+  description.value = "";
+}
+
 function saveTransaction(transaction) {
   let transactions = getTransactionData() || {};
   const transactionId = new Date().getTime().toString().slice(8);
   transactions[transactionId] = transaction;
   localStorage.setItem("transactions", JSON.stringify(transactions));
 }
-function getTransactionData() {
-  return JSON.parse(localStorage.getItem("transactions")) || {};
-}
+
 function populateTable() {
   const transactions = getTransactionData();
   const incomeClassName = "bg-green-300";
@@ -164,51 +172,50 @@ function populateTable() {
     transactionsTbody.insertAdjacentHTML("beforeend", newRow);
   });
 }
-
-function updateAmountInfo() {
-  let incomeAmountDisplay = document.querySelector(".income-amount");
-  let expenseAmountDisplay = document.querySelector(".expense-amount");
-  let remainingBalanceDisplay = document.querySelector(".remaining-balance");
+function getIncomeExpenseTotal() {
   const transactionsTotal = getTransactionData();
   let totalIncome = 0;
   let totalExpense = 0;
-  Object.entries(transactionsTotal).map(([id, data]) => {
+  Object.entries(transactionsTotal).forEach(([id, data]) => {
     if (data.amountType == "Expense") {
       totalExpense += Number(data.amount);
     } else {
       totalIncome += Number(data.amount);
     }
   });
-  incomeAmountDisplay.innerHTML = formatLargeNumber(totalIncome);
-  expenseAmountDisplay.innerHTML = formatLargeNumber(totalExpense);
+  return { totalExpense, totalIncome };
+}
+function updateAmountInfo() {
+  let incomeAmountDisplay = document.querySelector(".income-amount");
+  let expenseAmountDisplay = document.querySelector(".expense-amount");
+  let remainingBalanceDisplay = document.querySelector(".remaining-balance");
+  let incomeExpenseData = getIncomeExpenseTotal();
+  incomeAmountDisplay.innerHTML = formatLargeNumber(
+    incomeExpenseData.totalIncome,
+  );
+  expenseAmountDisplay.innerHTML = formatLargeNumber(
+    incomeExpenseData.totalExpense,
+  );
   remainingBalanceDisplay.innerHTML = formatLargeNumber(
-    totalIncome - totalExpense,
+    incomeExpenseData.totalIncome - incomeExpenseData.totalExpense,
   );
   updateChartData(); // Updates chart data after new source is added
 }
 
 function updateChartData() {
-  const transactionsTotal = getTransactionData();
-  let totalIncome = 0;
-  let totalExpense = 0;
-  Object.entries(transactionsTotal).forEach(([id, data]) => {
-    if (data.amountType === "Income") {
-      totalIncome += Number(data.amount);
-    } else if (data.amountType === "Expense") {
-      totalExpense += Number(data.amount);
-    }
-  });
-  let total = totalIncome + totalExpense;
-  // If no data is present in localstorage then sends 1 to the chart object to make it visible
-  let incomePer = total ? ((totalIncome / total) * 100).toFixed(1) : 1;
-  let expensePer = total ? ((totalExpense / total) * 100).toFixed(1) : 1;
+  let incomeExpenseData = getIncomeExpenseTotal();
+  let total = incomeExpenseData.totalIncome + incomeExpenseData.totalExpense;
+  // If no data is present in localstorage, sends 1 to the chart object making it visible, if not, sends income/expense percentage
+  let incomePer = total
+    ? ((incomeExpenseData.totalIncome / total) * 100).toFixed(1)
+    : 1;
+  let expensePer = total
+    ? ((incomeExpenseData.totalExpense / total) * 100).toFixed(1)
+    : 1;
   chart.data.datasets[0].data = [incomePer, expensePer];
   chart.update();
 }
-function clearInputField(amount, description) {
-  amount.value = "";
-  description.value = "";
-}
+
 // Error dialog section
 function showErrorCard(message) {
   let errorCardContainer = document.querySelector(".error-card-container");
@@ -230,64 +237,26 @@ function hideErrorCard(errorCard) {
     errorCard.style.display = "none";
   }, 1190);
 }
-// console.log(document.querySelectorAll("table-header"));
-document.querySelectorAll(".table-header").forEach((header) => {
-  header.addEventListener("click", () => {
-    // console.log(header);
-    const table = document.querySelector("table");
-    const tbody = table.querySelector("tbody");
-    const index = header.cellIndex;
-    const order = header.getAttribute("data-order");
-    const rows = Array.from(tbody.querySelectorAll("tr"));
-    rows.sort((a, b) => {
-      const aText = a.cells[index].textContent.trim();
-      const bText = b.cells[index].textContent.trim();
 
-      if (!isNaN(aText) && !isNaN(bText)) {
-        return order === "asc" ? aText - bText : bText - aText;
-      } else {
-        return order === "asc"
-          ? aText.localeCompare(bText)
-          : bText.localeCompare(aText);
-      }
-    });
-
-    console.log(rows);
-    rows.forEach((row) => tbody.appendChild(row));
-    header.setAttribute("data-order", order === "asc" ? "desc" : "asc");
-  });
-});
 document.getElementById("menu-button").addEventListener("click", () => {
   document.querySelector(".dropdown-menu").classList.toggle("hidden");
 });
 document.querySelectorAll(".dropdown-item").forEach((item) => {
   item.addEventListener("click", () => {
-    // console.log(header.innerHTML)
-    // console.log(column);
-    // const column = item.getAttribute("data-column");
+    // Returns true if the attribute of selected dropdown item is low-high
     const isHighestToLowest = item.getAttribute("data-value") == "lowHigh";
     const table = document.querySelector("table");
     const header = document.querySelectorAll(`.table-header`);
-    // console.log(header)
     const tbody = table.querySelector("tbody");
     const currentOrder = header[0].getAttribute("data-order");
+    // Toggles between ascending and descending order
     const order = currentOrder === "asc" ? "desc" : "asc";
     const rows = Array.from(tbody.querySelectorAll("tr"));
-    // console.log(rows);
-    // console.log(rows);
     rows.sort((a, b) => {
+      // Data of amount is in the 3rd column (2nd index) of the table
       const aText = a.cells[2].textContent.trim();
-      console.log(aText);
       const bText = b.cells[2].textContent.trim();
-      console.log(bText);
-      // console.log(aText, bText);
-      if (!isNaN(aText) && !isNaN(bText)) {
-        return isHighestToLowest ? aText - bText : bText - aText;
-      } else {
-        return isHighestToLowest
-          ? aText.localeCompare(bText)
-          : bText.localeCompare(aText);
-      }
+      return isHighestToLowest ? aText - bText : bText - aText;
     });
     rows.forEach((row) => tbody.appendChild(row));
     document.querySelector(".dropdown-menu").classList.add("hidden");
