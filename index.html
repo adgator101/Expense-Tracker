@@ -19,7 +19,7 @@
     <div
       class="wrapper flex min-h-full w-screen items-center justify-center bg-gray-300 px-4 pt-2 font-pop md:px-0"
     >
-      <div class="container rounded-lg px-6 py-4 text-sm md:max-w-xl">
+      <div class="container rounded-lg px-6 py-4 text-sm md:max-w-2xl">
         <nav
           class="to-gray-109 flex justify-around rounded-lg bg-gradient-to-r from-white to-gray-100 p-3"
         >
@@ -44,24 +44,26 @@
         </nav>
         <div class="content-wrapper mt-4 rounded-lg bg-white p-4">
           <div
-            class="balance-summary mx-auto mt-8 max-w-4xl rounded-xl bg-gradient-to-r from-blue-600 to-blue-800 p-6 text-white shadow-md"
+            class="balance-summary mx-auto mt-8 max-w-4xl cursor-pointer select-none rounded-xl bg-gradient-to-r from-blue-100 to-blue-200 p-6 text-gray-800 shadow-md"
           >
             <!-- Title Section -->
-            <h2 class="mb-6 text-center text-2xl font-semibold tracking-wide">
+            <h2
+              class="mb-6 cursor-auto text-center text-2xl font-semibold tracking-wide text-gray-800"
+            >
               Current Balance
             </h2>
 
             <!-- Income, Expense, and Remaining Balance Section -->
             <div
-              class="mb-6 grid grid-cols-2 content-center justify-between gap-6 sm:grid-cols-2 lg:grid-cols-3"
+              class="mb-6 grid grid-cols-2 content-center justify-between gap-6 sm:grid-cols-2"
             >
               <!-- Income -->
               <div
-                class="income rounded-lg bg-green-700 p-4 text-center shadow-md transition-all duration-300 hover:scale-105"
+                class="income rounded-lg bg-green-100 p-4 text-center shadow-md transition-all duration-300 hover:scale-105"
               >
-                <h3 class="text-md mb-2 font-medium">Income</h3>
+                <h3 class="text-md mb-2 font-medium text-green-700">Income</h3>
                 <p
-                  class="income-amount mt-2 text-2xl font-semibold text-green-300"
+                  class="income-amount mt-2 text-2xl font-semibold text-green-600"
                 >
                   0 $
                 </p>
@@ -69,11 +71,11 @@
 
               <!-- Expense -->
               <div
-                class="expense rounded-lg bg-red-700 p-4 text-center shadow-md transition-all duration-300 hover:scale-105"
+                class="expense rounded-lg bg-red-100 p-4 text-center shadow-md transition-all duration-300 hover:scale-105"
               >
-                <h3 class="text-md mb-2 font-medium">Expense</h3>
+                <h3 class="text-md mb-2 font-medium text-red-700">Expense</h3>
                 <p
-                  class="expense-amount mt-2 text-2xl font-semibold text-red-300"
+                  class="expense-amount mt-2 text-2xl font-semibold text-red-600"
                 >
                   0 $
                 </p>
@@ -81,37 +83,38 @@
 
               <!-- Remaining Balance -->
               <div
-                class="remaining-balance rounded-lg bg-yellow-700 p-4 text-center shadow-md transition-all duration-300 hover:scale-105 col-span-2 sm:colsp2 lg:col-span-1"
+                class="col-span-2 rounded-lg bg-yellow-100 p-4 text-center shadow-md transition-all duration-300 hover:scale-105"
               >
-                <h3 class="text-md mb-2 font-medium">Remaining Balance</h3>
-                <p class="mt-2 text-2xl font-semibold text-yellow-300">0 $</p>
+                <h3 class="text-md mb-2 font-medium text-yellow-700">
+                  Remaining Balance
+                </h3>
+                <p
+                  class="remaining-balance mt-2 text-2xl font-semibold text-yellow-600"
+                >
+                  0 $
+                </p>
               </div>
-            </div>
-
-            <!-- Monthly Savings Section -->
-            <div
-              class="savings-section rounded-lg bg-gradient-to-r from-green-600 to-green-800 p-4 text-center shadow-md transition-all duration-300 hover:scale-105"
-            >
-              <h3 class="text-md mb-2 font-medium text-white">
-                Monthly Savings
-              </h3>
-              <p
-                class="mt-2 inline-block rounded-md px-6 py-2 text-2xl font-semibold text-white"
-              >
-                50%
-              </p>
             </div>
           </div>
 
           <div class="main-section-wrapper my-6 w-full rounded-md px-3 py-2">
             <div class="new-transaction-section">
               <div
-                class="new-transaction-title py-3 text-center text-xl font-extrabold"
+                class="new-transaction-title flex items-center justify-between rounded-md border border-gray-200 bg-gray-50 px-5 py-4 shadow-sm"
               >
-                Add New Transaction
+                <p class="text-lg font-semibold text-gray-800">
+                  Add New Transaction
+                </p>
+                <button
+                  class="add-new-transaction-btn rounded-full bg-white p-2 shadow-sm transition duration-200 ease-in-out hover:bg-gray-100 focus:outline-none"
+                  aria-label="Add transaction"
+                >
+                  <i class="fa-solid fa-plus text-gray-700"></i>
+                </button>
               </div>
+
               <form
-                class="add-new-transaction pxy-2 flex flex-col gap-5 px-3 py-3"
+                class="add-new-transaction mt-4 hidden flex-col gap-5 px-2 py-3"
               >
                 <input
                   class="input-amount ease w-full rounded-md border border-b border-slate-200 bg-transparent px-3 py-2 text-sm text-slate-700 shadow-sm transition duration-300 placeholder:text-slate-400 hover:border-slate-300 focus:border-slate-400 focus:shadow focus:outline-none"
@@ -144,26 +147,103 @@
               <div
                 class="separator m-auto mt-4 h-0.5 w-11/12 bg-gray-100"
               ></div>
+
               <div
-                class="new-transaction-title py-3 text-center text-xl font-extrabold"
+                class="new-transaction-title pb-1 pt-3 text-center text-xl font-extrabold"
               >
                 Transaction Details
               </div>
-              <div class="reports-table mt-3 flex w-full justify-center">
+              <div
+                class="reports-table mt-3 flex w-full flex-col justify-center overflow-x-auto"
+              >
+                <div
+                  class="relative right-0 top-0 inline-block self-end pb-6 text-left"
+                >
+                  <button
+                    type="button"
+                    class="inline-flex w-full justify-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none"
+                    id="menu-button"
+                    aria-expanded="true"
+                    aria-haspopup="true"
+                  >
+                    Sort By
+                    <svg
+                      class="-mr-1 ml-2 h-5 w-5 text-gray-400"
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 20 20"
+                      fill="currentColor"
+                      aria-hidden="true"
+                    >
+                      <path
+                        fill-rule="evenodd"
+                        d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z"
+                        clip-rule="evenodd"
+                      />
+                    </svg>
+                  </button>
+                  <div
+                    class="dropdown-menu absolute right-0 mt-2 hidden w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
+                    role="menu"
+                    aria-orientation="vertical"
+                    aria-labelledby="menu-button"
+                    tabindex="-1"
+                  >
+                    <div class="cursor-pointer py-1" role="none">
+                      <div
+                        class="dropdown-item block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                        data-value="lowHigh"
+                      >
+                        Lowest to Highest
+                      </div>
+                      <div
+                        class="dropdown-item block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                        data-value="highLow"
+                      >
+                        Highest to Lowest
+                      </div>
+                    </div>
+                  </div>
+                </div>
                 <table
                   class="activity-table w-full border-collapse border border-gray-200 shadow-lg md:table"
                 >
                   <thead>
                     <tr class="p-4 text-center">
-                      <th class="border-b border-gray-200 px-3 py-2">Id</th>
-                      <th class="border-b border-gray-200 px-3 py-2">
+                      <th
+                        class="table-header border-b border-gray-200 px-3 py-2"
+                        data-column="0"
+                        data-order="asc"
+                      >
+                        Id
+                      </th>
+                      <th
+                        class="table-header border-b border-gray-200 px-3 py-2"
+                        data-column="1"
+                        data-order="asc"
+                      >
                         Description
                       </th>
-                      <th class="border-b border-gray-200 px-3 py-2">
+                      <th
+                        class="table-header border-b border-gray-200 px-3 py-2"
+                        data-column="2"
+                        data-order="asc"
+                      >
                         Category
                       </th>
-                      <th class="border-b border-gray-200 px-3 py-2">Amount</th>
-                      <th class="border-b border-gray-200 px-3 py-2">Date</th>
+                      <th
+                        class="table-header border-b border-gray-200 px-3 py-2"
+                        data-column="3"
+                        data-order="asc"
+                      >
+                        Amount
+                      </th>
+                      <th
+                        class="table-header border-b border-gray-200 px-3 py-2"
+                        data-column="4"
+                        data-order="asc"
+                      >
+                        Date
+                      </th>
                     </tr>
                   </thead>
                   <tbody class="manage-transactions-tbody mt-4">
@@ -187,6 +267,11 @@
                         >
                           Fooding
                         </span>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td colspan="3" class="px-4 py-6 text-center text-gray-500">
+                        No data available
                       </td>
                     </tr>
                   </tbody>

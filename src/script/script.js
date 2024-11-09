@@ -9,8 +9,13 @@ let dashboardBtn = document.querySelector(".tab-button-dashboard");
 let reportsBtn = document.querySelector(".tab-button-report");
 let reportsContainer = document.querySelector(".reports-section");
 let dashboardContainer = document.querySelector(".new-transaction-section");
+let balanceSummaryContainer = document.querySelector(".balance-summary");
 let errorDialogTimeoutId; // Timeout id for error card dialog
-
+let addNewTransactionBtn = document.querySelector(".add-new-transaction-btn");
+let formContainer = document.querySelector(".add-new-transaction");
+addNewTransactionBtn.addEventListener("click", () => {
+  formContainer.classList.toggle("active");
+});
 // Event Listeners
 reportsBtn.addEventListener("click", showReports);
 dashboardBtn.addEventListener("click", showTransaction);
@@ -20,12 +25,14 @@ function showReports() {
   setActiveTab(reportsBtn);
   reportsContainer.style.display = "block";
   dashboardContainer.style.display = "none";
+  balanceSummaryContainer.style.display = "none";
   populateTable(); // Shows the table also updates if new data is added
 }
 function showTransaction() {
   setActiveTab(dashboardBtn);
   dashboardContainer.style.display = "block";
   reportsContainer.style.display = "none";
+  balanceSummaryContainer.style.display = "block";
 }
 function setActiveTab(activeButton) {
   // Remove active class from all buttons
@@ -83,7 +90,11 @@ submitBtn.addEventListener("click", (e) => {
   updateAmountInfo();
 });
 function formatLargeNumber(number) {
-  const formatter = Intl.NumberFormat("en", { notation: "compact" });
+  const formatter = Intl.NumberFormat("ne-NP", {
+    style: "currency",
+    currency: "NPR",
+    notation: "standard",
+  });
   return formatter.format(number);
 }
 function addNewTransaction() {
@@ -123,6 +134,14 @@ function populateTable() {
     ".manage-transactions-tbody",
   );
   transactionsTbody.innerHTML = "";
+  if (Object.keys(transactions).length == 0) {
+    transactionsTbody.innerHTML = `
+    <tr>
+      <td colspan="5" class="text-center py-4 text-gray-500">No data available</td>
+    </tr>
+  `;
+    return;
+  }
   Object.entries(transactions).map(([id, data]) => {
     let amountTypeClassName;
     // Assings className of type label accordingly
@@ -132,7 +151,7 @@ function populateTable() {
       <tr class = "p-4 text-center hover:bg-gray-300 transition ">
         <td class="border-b border-gray-200 px-3 py-4" data-label = "Id">${id}</td>
         <td class="border-b border-gray-200 px-3 py-4" data-label = "Description">${data.description}</td>
-        <td class="border-b border-gray-200 px-3 py-4" data-label = "Amount">${formatLargeNumber(data.amount)}</td>
+        <td class="border-b border-gray-200 px-3 py-4" data-label = "Amount">${data.amount}</td>
         <td class="border-b border-gray-200 px-3 py-4" data-label = "Type">
           <span class="rounded-lg px-3 py-1 ${amountTypeClassName}">
             ${data.amountType}
@@ -149,6 +168,7 @@ function populateTable() {
 function updateAmountInfo() {
   let incomeAmountDisplay = document.querySelector(".income-amount");
   let expenseAmountDisplay = document.querySelector(".expense-amount");
+  let remainingBalanceDisplay = document.querySelector(".remaining-balance");
   const transactionsTotal = getTransactionData();
   let totalIncome = 0;
   let totalExpense = 0;
@@ -159,8 +179,11 @@ function updateAmountInfo() {
       totalIncome += Number(data.amount);
     }
   });
-  incomeAmountDisplay.innerHTML = formatLargeNumber(totalIncome) + " $";
-  expenseAmountDisplay.innerHTML = formatLargeNumber(totalExpense) + " $";
+  incomeAmountDisplay.innerHTML = formatLargeNumber(totalIncome);
+  expenseAmountDisplay.innerHTML = formatLargeNumber(totalExpense);
+  remainingBalanceDisplay.innerHTML = formatLargeNumber(
+    totalIncome - totalExpense,
+  );
   updateChartData(); // Updates chart data after new source is added
 }
 
@@ -207,3 +230,69 @@ function hideErrorCard(errorCard) {
     errorCard.style.display = "none";
   }, 1190);
 }
+// console.log(document.querySelectorAll("table-header"));
+document.querySelectorAll(".table-header").forEach((header) => {
+  header.addEventListener("click", () => {
+    // console.log(header);
+    const table = document.querySelector("table");
+    const tbody = table.querySelector("tbody");
+    const index = header.cellIndex;
+    const order = header.getAttribute("data-order");
+    const rows = Array.from(tbody.querySelectorAll("tr"));
+    rows.sort((a, b) => {
+      const aText = a.cells[index].textContent.trim();
+      const bText = b.cells[index].textContent.trim();
+
+      if (!isNaN(aText) && !isNaN(bText)) {
+        return order === "asc" ? aText - bText : bText - aText;
+      } else {
+        return order === "asc"
+          ? aText.localeCompare(bText)
+          : bText.localeCompare(aText);
+      }
+    });
+
+    console.log(rows);
+    rows.forEach((row) => tbody.appendChild(row));
+    header.setAttribute("data-order", order === "asc" ? "desc" : "asc");
+  });
+});
+document.getElementById("menu-button").addEventListener("click", () => {
+  document.querySelector(".dropdown-menu").classList.toggle("hidden");
+});
+document.querySelectorAll(".dropdown-item").forEach((item) => {
+  item.addEventListener("click", () => {
+    // console.log(header.innerHTML)
+    // console.log(column);
+    // const column = item.getAttribute("data-column");
+    const isHighestToLowest = item.getAttribute("data-value") == "lowHigh";
+    const table = document.querySelector("table");
+    const header = document.querySelectorAll(`.table-header`);
+    // console.log(header)
+    const tbody = table.querySelector("tbody");
+    const currentOrder = header[0].getAttribute("data-order");
+    const order = currentOrder === "asc" ? "desc" : "asc";
+    const rows = Array.from(tbody.querySelectorAll("tr"));
+    // console.log(rows);
+    // console.log(rows);
+    rows.sort((a, b) => {
+      const aText = a.cells[2].textContent.trim();
+      console.log(aText);
+      const bText = b.cells[2].textContent.trim();
+      console.log(bText);
+      // console.log(aText, bText);
+      if (!isNaN(aText) && !isNaN(bText)) {
+        return isHighestToLowest ? aText - bText : bText - aText;
+      } else {
+        return isHighestToLowest
+          ? aText.localeCompare(bText)
+          : bText.localeCompare(aText);
+      }
+    });
+    rows.forEach((row) => tbody.appendChild(row));
+    document.querySelector(".dropdown-menu").classList.add("hidden");
+    header.forEach((head) => {
+      head.setAttribute("data-order", order);
+    });
+  });
+});

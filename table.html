@@ -1,0 +1,244 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Activity Table</title>
+    <link rel="stylesheet" href="src/output.css" />
+    <style>
+      /* General Body Style */
+      body {
+        font-family: Arial, sans-serif;
+      }
+
+      /* Table Container */
+      .table-container {
+        width: 80%;
+        margin: 2rem auto;
+        overflow-x: auto;
+      }
+
+      /* Table Styles */
+      .activity-table {
+        width: 100%;
+        border: 1px solid #ddd;
+      }
+
+      .table-header,
+      .table-data {
+        padding: 12px;
+        border-bottom: 1px solid #ddd;
+      }
+
+      .table-header {
+        background-color: #f4f4f4;
+        font-weight: bold;
+        cursor: pointer;
+        transition: background-color 0.3s;
+      }
+
+      .table-header:hover {
+        background-color: #e0e0e0;
+      }
+
+      /* Alternate Row Color */
+      .manage-transactions-tbody tr:nth-child(even) {
+        background-color: #f9f9f9;
+      }
+
+      /* Tag Styles */
+      .tag {
+        display: inline-block;
+        padding: 0.2rem 0.6rem;
+        border-radius: 0.25rem;
+        font-size: 0.9rem;
+        font-weight: 500;
+        color: #fff;
+      }
+
+      /* Specific Tag Colors */
+      .tag-fooding {
+        background-color: #ff8a65; /* Example color for "Fooding" tag */
+      }
+
+      .tag-groceries {
+        background-color: #4caf50; /* Example color for "Groceries" tag */
+      }
+
+      /* Hover Effect for Rows */
+      .manage-transactions-tbody tr:hover {
+        background-color: #eaeaea;
+      }
+    </style>
+  </head>
+  <body class="flex flex-col">
+    <div class="relative inline-block text-left right-20 top-4 self-end ">
+        <button
+          type="button"
+          class="inline-flex w-full justify-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none"
+          id="menu-button"
+          aria-expanded="true"
+          aria-haspopup="true"
+        >
+          Sort By
+          <svg
+            class="-mr-1 ml-2 h-5 w-5 text-gray-400"
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 20 20"
+            fill="currentColor"
+            aria-hidden="true"
+          >
+            <path
+              fill-rule="evenodd"
+              d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z"
+              clip-rule="evenodd"
+            />
+          </svg>
+        </button>
+        <div
+          class="dropdown-menu absolute right-0 mt-2 hidden w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
+          role="menu"
+          aria-orientation="vertical"
+          aria-labelledby="menu-button"
+          tabindex="-1"
+        >
+          <div class="py-1" role="none">
+            <div class="dropdown-item block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" data-column="0">
+              Id
+            </div>
+            <div class="dropdown-item block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" data-column="1">
+              Description
+            </div>
+            <div class="dropdown-item block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" data-column="2">
+              Category
+            </div>
+            <div class="dropdown-item block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" data-column="3">
+              Amount
+            </div>
+            <div class="dropdown-item block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" data-column="4">
+              Date
+            </div>
+          </div>
+        </div>
+      </div>
+      
+    </div>
+    <div class="table-container">
+      <table class="activity-table w-full border-collapse shadow-lg">
+        <thead>
+          <tr class="text-center">
+            <th class="table-header" data-column="0" data-order="asc">Id</th>
+            <th class="table-header" data-column="1" data-order="asc">
+              Description
+            </th>
+            <th class="table-header" data-column="2" data-order="asc">
+              Category
+            </th>
+            <th class="table-header" data-column="3" data-order="asc">
+              Amount
+            </th>
+            <th class="table-header" data-column="4" data-order="asc">Date</th>
+          </tr>
+        </thead>
+        <tbody class="manage-transactions-tbody">
+          <!-- Example Row for Tailwind Class Demonstration -->
+          <tr class="text-center">
+            <td class="table-data">1</td>
+            <td class="table-data">1kg Chicken</td>
+            <td class="table-data">
+              <span class="tag tag-fooding">Fooding</span>
+            </td>
+            <td class="table-data">300</td>
+            <td class="table-data">March 13</td>
+          </tr>
+          <tr class="text-center">
+            <td class="table-data">2</td>
+            <td class="table-data">2kg Chicken</td>
+            <td class="table-data">
+              <span class="tag tag-fooding">Cooking</span>
+            </td>
+            <td class="table-data">800</td>
+            <td class="table-data">January 14</td>
+          </tr>
+          <!-- Additional rows can be added here -->
+        </tbody>
+      </table>
+    </div>
+    <script>
+      document.getElementById("menu-button").addEventListener("click", () => {
+        document.querySelector(".dropdown-menu").classList.toggle("hidden");
+      });
+    //   document.querySelectorAll(".dropdown-menu").forEach((header) => {
+    //     header.addEventListener("click", () => {
+    //         console.log(header);
+    //       const table = document.querySelector("table");
+    //       const tbody = table.querySelector("tbody");
+    //       const index = header.cellIndex;
+    //       const order = header.getAttribute("data-order");
+    //       const rows = Array.from(tbody.querySelectorAll("tr"));
+    //       rows.sort((a, b) => {
+    //         const aText = a.cells[index].textContent.trim();
+    //         const bText = b.cells[index].textContent.trim();
+
+    //         if (!isNaN(aText) && !isNaN(bText)) {
+    //           return order === "asc" ? aText - bText : bText - aText;
+    //         } else {
+    //           return order === "asc"
+    //             ? aText.localeCompare(bText)
+    //             : bText.localeCompare(aText);
+    //         }
+    //       });
+
+    //       console.log(rows);
+    //       rows.forEach((row) => tbody.appendChild(row));
+    //       header.setAttribute("data-order", order === "asc" ? "desc" : "asc");
+    //     });
+    //   });
+    document.querySelectorAll(".dropdown-item").forEach((item)=>{
+        item.addEventListener("click",()=>{
+            // console.log(header.innerHTML)
+            const column = item.getAttribute("data-column");
+            const table = document.querySelector("table");
+            const header = document.querySelectorAll(`.table-header`);
+            // console.log(header)
+            const tbody = table.querySelector("tbody");
+            const currentOrder = header[column].getAttribute("data-order");
+            const order = currentOrder === "asc" ? "desc" : "asc";
+            const rows = Array.from(tbody.querySelectorAll("tr"));
+            console.log(rows);
+            rows.sort((a,b)=>{
+                const aText = a.cells[column].textContent.trim();
+                const bText = b.cells[column].textContent.trim();
+                console.log(aText,bText);
+               if (!isNaN(aText) && !isNaN(bText)) {
+              return order === "asc" ? aText - bText : bText - aText;
+            } else {
+              return order === "asc"
+                ? aText.localeCompare(bText)
+                : bText.localeCompare(aText);
+            }
+            })
+            rows.forEach((row) => tbody.appendChild(row));
+            document.querySelector(".dropdown-menu").classList.add("hidden");
+            // console.log(order);
+            // header.setAttribute("data-order", order === "asc" ? "desc" : "asc");
+            header.forEach(head =>{
+            head.setAttribute("data-order", order);
+                
+            })
+            // console.log(column);
+        })
+    })
+      document.addEventListener("click", (event) => {
+        const dropdown = document.querySelector(".dropdown-menu");
+        const button = document.getElementById("menu-button");
+        if (
+          !button.contains(event.target) &&
+          !dropdown.contains(event.target)
+        ) {
+          dropdown.classList.add("hidden");
+        }
+      });
+    </script>
+  </body>
+</html>
