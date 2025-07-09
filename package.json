@@ -9,6 +9,7 @@
     "watch": "npx tailwindcss -i src/input.css -o src/output.css --watch"
   },
   "dependencies": {
+    "sharp": "^0.34.2",
     "watch": "^1.0.2"
   }
 }
