@@ -45,3 +45,40 @@ body {
     text-align: left;
   }
 }
+@media (max-width: 640px) {
+  .container {
+    padding: 0.5rem !important;
+  }
+  .content-wrapper {
+    padding: 0.5rem !important;
+  }
+  .balance-summary {
+    padding: 1rem 0.5rem !important;
+    font-size: 1rem !important;
+  }
+  .main-section-wrapper {
+    padding: 0.5rem !important;
+  }
+  .new-transaction-title {
+    flex-direction: column;
+    gap: 0.5rem;
+    padding: 0.5rem !important;
+    font-size: 1rem !important;
+  }
+  .add-new-transaction {
+    padding: 0.5rem !important;
+    gap: 0.5rem !important;
+  }
+  .reports-table {
+    font-size: 0.9rem !important;
+  }
+  .activity-table th, .activity-table td {
+    padding: 0.5rem !important;
+    font-size: 0.9rem !important;
+  }
+  .delete-dialog-wrapper .card {
+    width: 95vw !important;
+    min-width: unset !important;
+    padding: 1rem !important;
+  }
+}

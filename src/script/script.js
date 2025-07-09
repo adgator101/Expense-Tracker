@@ -318,9 +318,5 @@ function hideDeleteDialog() {
   deleteDialogContainer.style.display = "none";
 }
 
-window.addEventListener('online', updateOnlineStatus);
-window.addEventListener('offline', updateOnlineStatus);
-document.addEventListener('DOMContentLoaded', updateOnlineStatus);
-
 // --- Sync logic placeholder (for future server sync) ---
 // You can add logic here to sync localStorage data to a server when online.
